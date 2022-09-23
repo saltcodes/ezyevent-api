@@ -1,8 +1,7 @@
 package model
 
-import "go.mongodb.org/mongo-driver/bson/primitive"
-
 type EventType struct {
-	Id   primitive.ObjectID `bson:"_id" json:"id"`
-	Name string             ` json:"name"`
+	Id      string `bson:"_id,omitempty" json:"id"`
+	Name    string ` json:"name"`
+	IconUrl string `json:"iconUrl"`
 }

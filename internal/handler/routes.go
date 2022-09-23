@@ -12,4 +12,7 @@ func InitRoutes(app *fiber.App) {
 	app.Get("/", func(ctx *fiber.Ctx) error {
 		return ctx.SendString("Hello ezyevents API v1.0")
 	})
+
+	app.Get("/event-types", ListEventTypes)
+	app.Post("/event-types", CreateEventType)
 }
