@@ -1,9 +1,14 @@
 package handler
 
 import (
+	"context"
+	"ezyevent-api/internal/database"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
 )
+
+var db = database.Config()
+var ctx = context.TODO()
 
 func InitRoutes(app *fiber.App) {
 

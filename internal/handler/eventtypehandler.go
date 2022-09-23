@@ -1,8 +1,6 @@
 package handler
 
 import (
-	"context"
-	"ezyevent-api/internal/database"
 	"ezyevent-api/internal/model"
 	"ezyevent-api/internal/util"
 	"github.com/gofiber/fiber/v2"
@@ -11,13 +9,11 @@ import (
 	"log"
 )
 
-var db = database.Config()
-var ctx = context.TODO()
-var eventCollection = db.Collection("eventTypes")
+var eventTypeCollection = db.Collection("eventTypes")
 
 func ListEventTypes(c *fiber.Ctx) error {
 	var eventTypes []model.EventType
-	cursor, err := eventCollection.Find(ctx, bson.M{})
+	cursor, err := eventTypeCollection.Find(ctx, bson.M{})
 
 	if err != nil {
 		log.Fatal(err)
@@ -37,7 +33,7 @@ func CreateEventType(c *fiber.Ctx) error {
 		return util.CreateResponseMessage(c, 500, "internal server error", err.Error())
 	}
 
-	result, err := eventCollection.InsertOne(ctx, eventType)
+	result, err := eventTypeCollection.InsertOne(ctx, eventType)
 	if err != nil {
 		return util.CreateResponseMessage(c, 500, "internal server error", err.Error())
 	}
