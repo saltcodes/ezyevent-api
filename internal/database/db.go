@@ -1,20 +1,20 @@
 package database
 
 import (
-	"context"
 	"fmt"
-	"go.mongodb.org/mongo-driver/mongo"
-	"go.mongodb.org/mongo-driver/mongo/options"
-	"log"
+	"gorm.io/driver/postgres"
+	"gorm.io/gorm"
 )
 
-func Config() *mongo.Database {
-	ctx := context.Background()
-	client, err := mongo.Connect(ctx, options.Client().ApplyURI("mongodb://localhost:27017/"))
-	if err != nil {
-		log.Fatal(err)
-	}
+var DBConn *gorm.DB
 
-	fmt.Println("Db Connected")
-	return client.Database("ezyevents")
+func InitDatabase() {
+	var err error
+	DBConn, err = gorm.Open(postgres.New(postgres.Config{
+		DSN: "host=34.134.195.7 user=thanos dbname=ezyevents password=Ep0KmT1cvYU4xAAb  port=6432",
+	}))
+	if err != nil {
+		panic("failed to connect database")
+	}
+	fmt.Println("Connection Opened to Database")
 }
