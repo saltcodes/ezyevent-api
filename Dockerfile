@@ -1,10 +1,14 @@
-FROM golang:1.19-alpine
+FROM golang:1.19-alpine as build
 WORKDIR /app
 COPY go.mod ./
 COPY go.sum ./
 RUN go mod download
-COPY *.go ./
-RUN go build cmd/ezyevent-api/main.go
-EXPOSE 8081
-CMD ["/ezyevent-api"]
+COPY . .
+RUN CGO_ENABLED=0 go build cmd/ezyevent-api/main.go
 
+
+
+FROM scratch
+COPY --from=build /app/main .
+CMD ["/main"]
+EXPOSE 8080
