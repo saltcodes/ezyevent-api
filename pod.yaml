@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: ezyevent-api
+spec:
+  containers:
+    - name: ezyevent-api
+      image: johnyoat/ezyevent-api:v1.0
+      ports:
+        - containerPort: 80

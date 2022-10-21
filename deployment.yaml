@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ezyevent-api-deployment
+  labels:
+    app: ezyevent-api
+spec:
+  replicas: 10
+  selector:
+    matchLabels:
+      app: ezyevent-api
+  template:
+    metadata:
+      labels:
+        app: ezyevent-api
+    spec:
+      containers:
+        - name: ezyevent-api
+          image: johnyoat/ezyevent-api:v1.0
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
