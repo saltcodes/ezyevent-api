@@ -5,7 +5,7 @@ metadata:
   labels:
     app: ezyevent-api
 spec:
-  replicas: 10
+  replicas: 5
   selector:
     matchLabels:
       app: ezyevent-api
