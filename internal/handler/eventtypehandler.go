@@ -10,7 +10,7 @@ func ListEventTypes(c *fiber.Ctx) error {
 	var eventTypes []model.EventType
 
 	if err := (*db).Find(&eventTypes).Error; err != nil {
-		return util.CreateResponseMessage(c, 500, "internal server error", err.Error())
+		return util.CreateResponseMessage(c, 500, util.InternalError, err.Error())
 	}
 
 	return util.CreateResponseMessage(c, 200, "success", eventTypes)

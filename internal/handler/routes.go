@@ -20,5 +20,6 @@ func InitRoutes(app *fiber.App) {
 	app.Post("/event-types", CreateEventType)
 	app.Get("/users", GetUsers)
 	app.Get("/comments", ListComments)
+	app.Get("/events", ListEvents)
 	app.Post("/events", CreateEvent)
 }
