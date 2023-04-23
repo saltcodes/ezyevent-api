@@ -4,6 +4,8 @@ go 1.19
 
 require (
 	github.com/gofiber/fiber/v2 v2.37.1
+	github.com/google/uuid v1.3.0
+	github.com/lib/pq v1.10.2
 	gorm.io/driver/postgres v1.3.10
 	gorm.io/gorm v1.23.10
 )

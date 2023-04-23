@@ -2,10 +2,11 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: ezyevent-api-deployment
+  namespace: main-app
   labels:
     app: ezyevent-api
 spec:
-  replicas: 5
+  replicas: 2
   selector:
     matchLabels:
       app: ezyevent-api
@@ -13,10 +14,33 @@ spec:
     metadata:
       labels:
         app: ezyevent-api
+      annotations:
+        linkerd.io/inject: enabled
     spec:
       containers:
         - name: ezyevent-api
-          image: johnyoat/ezyevent-api:v1.0
+          image: gcr.io/ezyevents/main-api:v1.0
           imagePullPolicy: Always
           ports:
             - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ezyevent-api-service
+  namespace: main-app
+  annotations:
+    linkerd.io/inject: enabled
+  labels:
+    app: ezyevent-api
+spec:
+  type: LoadBalancer
+  ports:
+    - name: http
+      port: 8080
+      protocol: TCP
+      targetPort: 8080
+  selector:
+    app: ezyevent-api
+  sessionAffinity: None
+
