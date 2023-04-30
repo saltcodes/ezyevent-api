@@ -1,0 +1,18 @@
+syntax = "proto3";
+option go_package="/internal/proto";
+package proto;
+import "google/protobuf/empty.proto";
+
+message Location{
+  string Type = 1;
+  repeated float Coordinates = 2 [packed=true];
+}
+
+message LocationObject{
+  string Id = 1;
+  Location location = 2;
+}
+
+service LocationDataService{
+  rpc LocationData(LocationObject) returns  (google.protobuf.Empty);
+}
