@@ -6,12 +6,8 @@ import (
 	"ezyevent-api/internal/proto"
 	"ezyevent-api/internal/util"
 	"github.com/gofiber/fiber/v2"
-	"google.golang.org/grpc"
-	"google.golang.org/grpc/credentials/insecure"
 	"log"
 )
-
-var conn *grpc.ClientConn
 
 func ListEvents(c *fiber.Ctx) error {
 	var eventList []model.Event
@@ -43,16 +39,13 @@ func CreateEvent(c *fiber.Ctx) error {
 		},
 	}
 
-	//Initiate gRPC client Connection
-	con, err := grpc.Dial("localhost:8181", grpc.WithTransportCredentials(insecure.NewCredentials()))
-
-	if err != nil {
-		log.Fatalf(err.Error())
+	if grpcErr != nil {
+		log.Fatalf(grpcErr.Error())
 	}
 
 	//Call needed service from generated proto file with New_ServiceName
 	client := proto.NewLocationDataServiceClient(con)
-	_, err = client.LocationData(context.Background(), location)
+	_, grpcErr = client.LocationData(context.Background(), location)
 
 	return util.CreateResponseMessage(c, 200, util.Success, event)
 }

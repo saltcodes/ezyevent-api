@@ -4,9 +4,14 @@ import (
 	"ezyevent-api/internal/database"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
+	"google.golang.org/grpc"
+	"google.golang.org/grpc/credentials/insecure"
 )
 
 var db = &database.DBConn
+
+// Initiate gRPC client Connection
+var con, grpcErr = grpc.Dial("localhost:8181", grpc.WithTransportCredentials(insecure.NewCredentials()))
 
 func InitRoutes(app *fiber.App) {
 
