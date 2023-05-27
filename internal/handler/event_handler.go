@@ -36,7 +36,7 @@ func CreateEvent(c *fiber.Ctx) error {
 	location := &proto.LocationObject{
 		Id: event.Id,
 		Location: &proto.Location{
-			Type:        "Type",
+			Type:        "Point",
 			Coordinates: []float32{float32(event.Lat), float32(event.Lng)},
 		},
 	}
@@ -45,7 +45,7 @@ func CreateEvent(c *fiber.Ctx) error {
 		log.Fatalf(grpcErr.Error())
 	}
 
-	//Call needed service from generated proto file with New_ServiceName
+	//Send location data to location RPC for geo hashing
 	client := proto.NewLocationDataServiceClient(con)
 	_, grpcErr = client.LocationData(context.Background(), location)
 	return util.CreateResponseMessage(c, 200, util.Success, event)

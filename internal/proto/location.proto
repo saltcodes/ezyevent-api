@@ -13,6 +13,17 @@ message LocationObject{
   Location location = 2;
 }
 
+message LocationQueryObject{
+  float radius = 1;
+  float latitude = 2;
+  float longitude = 3;
+}
+
+message EventsLists{
+  repeated LocationObject events = 1;
+}
+
 service LocationDataService{
   rpc LocationData(LocationObject) returns  (google.protobuf.Empty);
+  rpc FindEventsWithin(LocationQueryObject) returns (EventsLists);
 }
