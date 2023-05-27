@@ -23,7 +23,12 @@ message EventsLists{
   repeated LocationObject events = 1;
 }
 
+message EventIds{
+  repeated string ids = 1;
+}
+
 service LocationDataService{
   rpc LocationData(LocationObject) returns  (google.protobuf.Empty);
   rpc FindEventsWithin(LocationQueryObject) returns (EventsLists);
+  rpc FindEventIdsWithin(LocationQueryObject) returns (EventIds);
 }

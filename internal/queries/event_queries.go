@@ -15,3 +15,7 @@ func CreateEvent(event *model.Event) error {
 func ListEvent(eventList *[]model.Event) error {
 	return (*db).Find(&eventList).Error
 }
+
+func FindEventsWithin(ids []string, eventList *[]model.Event) error {
+	return (*db).Where("id IN ?", ids).Find(&eventList).Error
+}
