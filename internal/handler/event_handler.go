@@ -39,7 +39,7 @@ func CreateEvent(c *fiber.Ctx) error {
 		Id: event.Id,
 		Location: &proto.Location{
 			Type:        "Point",
-			Coordinates: []float32{float32(event.Lat), float32(event.Lng)},
+			Coordinates: []float64{event.Lat, event.Lng},
 		},
 	}
 

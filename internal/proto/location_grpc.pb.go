@@ -25,7 +25,6 @@ const _ = grpc.SupportPackageIsVersion7
 type LocationDataServiceClient interface {
 	LocationData(ctx context.Context, in *LocationObject, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	FindEventsWithin(ctx context.Context, in *LocationQueryObject, opts ...grpc.CallOption) (*EventsLists, error)
-	FindEventIdsWithin(ctx context.Context, in *LocationQueryObject, opts ...grpc.CallOption) (*EventIds, error)
 }
 
 type locationDataServiceClient struct {
@@ -54,22 +53,12 @@ func (c *locationDataServiceClient) FindEventsWithin(ctx context.Context, in *Lo
 	return out, nil
 }
 
-func (c *locationDataServiceClient) FindEventIdsWithin(ctx context.Context, in *LocationQueryObject, opts ...grpc.CallOption) (*EventIds, error) {
-	out := new(EventIds)
-	err := c.cc.Invoke(ctx, "/proto.LocationDataService/FindEventIdsWithin", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 // LocationDataServiceServer is the server API for LocationDataService service.
 // All implementations must embed UnimplementedLocationDataServiceServer
 // for forward compatibility
 type LocationDataServiceServer interface {
 	LocationData(context.Context, *LocationObject) (*emptypb.Empty, error)
 	FindEventsWithin(context.Context, *LocationQueryObject) (*EventsLists, error)
-	FindEventIdsWithin(context.Context, *LocationQueryObject) (*EventIds, error)
 	mustEmbedUnimplementedLocationDataServiceServer()
 }
 
@@ -82,9 +71,6 @@ func (UnimplementedLocationDataServiceServer) LocationData(context.Context, *Loc
 }
 func (UnimplementedLocationDataServiceServer) FindEventsWithin(context.Context, *LocationQueryObject) (*EventsLists, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method FindEventsWithin not implemented")
-}
-func (UnimplementedLocationDataServiceServer) FindEventIdsWithin(context.Context, *LocationQueryObject) (*EventIds, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method FindEventIdsWithin not implemented")
 }
 func (UnimplementedLocationDataServiceServer) mustEmbedUnimplementedLocationDataServiceServer() {}
 
@@ -135,24 +121,6 @@ func _LocationDataService_FindEventsWithin_Handler(srv interface{}, ctx context.
 	return interceptor(ctx, in, info, handler)
 }
 
-func _LocationDataService_FindEventIdsWithin_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(LocationQueryObject)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(LocationDataServiceServer).FindEventIdsWithin(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/proto.LocationDataService/FindEventIdsWithin",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(LocationDataServiceServer).FindEventIdsWithin(ctx, req.(*LocationQueryObject))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 // LocationDataService_ServiceDesc is the grpc.ServiceDesc for LocationDataService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -167,10 +135,6 @@ var LocationDataService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "FindEventsWithin",
 			Handler:    _LocationDataService_FindEventsWithin_Handler,
-		},
-		{
-			MethodName: "FindEventIdsWithin",
-			Handler:    _LocationDataService_FindEventIdsWithin_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
