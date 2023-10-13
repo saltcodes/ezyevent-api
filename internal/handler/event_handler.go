@@ -17,9 +17,9 @@ func ListEvents(c *fiber.Ctx) error {
 
 	//Get address of the event list
 	if err := queries.ListEvent(&eventList); err != nil {
-		return util.CreateResponseMessage(c, fiber.StatusInternalServerError, util.InternalError, err.Error())
+		return util.CreateResponseMessage(c, util.InternalError, err.Error())
 	}
-	return util.CreateResponseMessage(c, 200, util.Success, eventList)
+	return util.CreateResponseMessage(c, util.Success, eventList)
 }
 
 func CreateEvent(c *fiber.Ctx) error {
@@ -27,11 +27,11 @@ func CreateEvent(c *fiber.Ctx) error {
 
 	//Parse Json Object to Struct
 	if err := c.BodyParser(event); err != nil {
-		return util.CreateResponseMessage(c, 500, util.InternalError, err.Error())
+		return util.CreateResponseMessage(c, util.InternalError, err.Error())
 	}
 
 	if err := queries.CreateEvent(event); err != nil {
-		return util.CreateResponseMessage(c, 500, err.Error(), nil)
+		return util.CreateErrorResponseCode(c, err.Error())
 	}
 
 	//Extract Location object from struct
@@ -49,22 +49,22 @@ func CreateEvent(c *fiber.Ctx) error {
 
 	//Send location data to location RPC for geo hashing
 	_, grpcErr = locationServerClient.LocationData(context.Background(), location)
-	return util.CreateResponseMessage(c, 200, util.Success, event)
+	return util.CreateResponseMessage(c, util.Success, event)
 }
 
 // FindEvents Find Events uses Post instead of GET to ensure correctness and also too lazy to be parsing params
 func FindEvents(c *fiber.Ctx) error {
-	locationQueryObject := new(proto.LocationQueryObject)
 	var eventList []model.Event
 	var eventIds []string
 
-	//Parse location Query Object which includes radius,latitude and longitude.
-	if err := c.BodyParser(locationQueryObject); err != nil {
-		return util.CreateResponseMessage(c, 500, err.Error(), nil)
+	locationQueryObject := proto.LocationQueryObject{
+		Radius:    util.ConvertStringToInt32(c.Params("radius")),
+		Latitude:  util.ConvertStringToFloat64(c.Params("lat")),
+		Longitude: util.ConvertStringToFloat64(c.Params("lng")),
 	}
 
 	//GRPC calls returns the whole
-	eventsIdList, err := locationServerClient.FindEventsWithin(context.Background(), locationQueryObject)
+	eventsIdList, err := locationServerClient.FindEventsWithin(context.Background(), &locationQueryObject)
 	if err != nil {
 		log.Fatalf(err.Error())
 	}
@@ -74,8 +74,22 @@ func FindEvents(c *fiber.Ctx) error {
 	}
 
 	if err := queries.FindEventsWithin(eventIds, &eventList); err != nil {
-		return util.CreateResponseMessage(c, 500, err.Error(), nil)
+		return util.CreateErrorResponseCode(c, err.Error())
 	}
 
-	return util.CreateResponseMessage(c, 200, util.Success, eventList)
+	return util.CreateResponseMessage(c, util.Success, eventList)
+}
+
+func DeleteEvent(c *fiber.Ctx) error {
+	event := new(model.Event)
+
+	if err := c.BodyParser(event); err != nil {
+		return util.CreateErrorResponseCode(c, err.Error())
+	}
+
+	if err := queries.DeleteEvent(event); err != nil {
+		return util.CreateErrorResponseCode(c, err.Error())
+	}
+
+	return util.CreateResponseMessage(c, util.Success, "Event deleted")
 }

@@ -1,6 +1,13 @@
 package util
 
-const (
-	InternalError = "internal Server Error"
-	Success       = "success"
-)
+import "ezyevent-api/internal/model"
+
+var InternalError = model.StatusCode{
+	Status:  200,
+	Message: "Internal server Error",
+}
+
+var Success = model.StatusCode{
+	Status:  200,
+	Message: "Success",
+}
