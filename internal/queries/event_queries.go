@@ -28,6 +28,12 @@ func UpdateEvent(event *model.Event) error {
 }
 
 // DeleteEvent delete event
-func DeleteEvent(event *model.Event) error {
-	return (*db).Delete(event).Error
+func DeleteEvent(id string) error {
+	var event model.Event
+
+	err := (*db).First(&event, id).Error
+	if event.Id == "" {
+		return err
+	}
+	return (*db).Delete(&event).Error
 }

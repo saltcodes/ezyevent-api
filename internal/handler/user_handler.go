@@ -12,8 +12,14 @@ func GetUsers(c *fiber.Ctx) error {
 	//var d = database.DBConn
 
 	if err := database.DBConn.Find(&users).Error; err != nil {
-		return util.CreateResponseMessage(c, 500, "internal server error", nil)
+		return util.CreateResponseMessage(c, model.StatusCode{
+			Message: "success",
+			Status:  201,
+		}, nil)
 	}
 
-	return util.CreateResponseMessage(c, 200, "success", users)
+	return util.CreateResponseMessage(c, model.StatusCode{
+		Message: "success",
+		Status:  200,
+	}, users)
 }

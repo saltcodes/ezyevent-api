@@ -57,14 +57,12 @@ func FindEvents(c *fiber.Ctx) error {
 	var eventList []model.Event
 	var eventIds []string
 
-	locationQueryObject := proto.LocationQueryObject{
+	//GRPC calls returns the whole
+	eventsIdList, err := locationServerClient.FindEventsWithin(context.Background(), &proto.LocationQueryObject{
 		Radius:    util.ConvertStringToInt32(c.Params("radius")),
 		Latitude:  util.ConvertStringToFloat64(c.Params("lat")),
 		Longitude: util.ConvertStringToFloat64(c.Params("lng")),
-	}
-
-	//GRPC calls returns the whole
-	eventsIdList, err := locationServerClient.FindEventsWithin(context.Background(), &locationQueryObject)
+	})
 	if err != nil {
 		log.Fatalf(err.Error())
 	}
@@ -81,13 +79,15 @@ func FindEvents(c *fiber.Ctx) error {
 }
 
 func DeleteEvent(c *fiber.Ctx) error {
-	event := new(model.Event)
+	id := c.Params("id")
 
-	if err := c.BodyParser(event); err != nil {
+	if err := queries.DeleteEvent(id); err != nil {
 		return util.CreateErrorResponseCode(c, err.Error())
 	}
 
-	if err := queries.DeleteEvent(event); err != nil {
+	if _, err := locationServerClient.DeleteEvent(context.Background(), &proto.EventId{
+		Id: id,
+	}); err != nil {
 		return util.CreateErrorResponseCode(c, err.Error())
 	}
 
