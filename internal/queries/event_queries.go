@@ -31,7 +31,7 @@ func UpdateEvent(event *model.Event) error {
 func DeleteEvent(id string) error {
 	var event model.Event
 
-	err := (*db).First(&event, id).Error
+	err := (*db).First(&event, "id=?", id).Error
 	if event.Id == "" {
 		return err
 	}

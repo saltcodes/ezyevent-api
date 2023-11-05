@@ -59,9 +59,9 @@ func FindEvents(c *fiber.Ctx) error {
 
 	//GRPC calls returns the whole
 	eventsIdList, err := locationServerClient.FindEventsWithin(context.Background(), &proto.LocationQueryObject{
-		Radius:    util.ConvertStringToInt32(c.Params("radius")),
-		Latitude:  util.ConvertStringToFloat64(c.Params("lat")),
-		Longitude: util.ConvertStringToFloat64(c.Params("lng")),
+		Radius:    util.ConvertStringToInt32(c.Query("radius")),
+		Latitude:  util.ConvertStringToFloat64(c.Query("lat")),
+		Longitude: util.ConvertStringToFloat64(c.Query("lng")),
 	})
 	if err != nil {
 		log.Fatalf(err.Error())
