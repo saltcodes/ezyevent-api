@@ -25,6 +25,7 @@ func InitRoutes(app *fiber.App) {
 	app.Get("/events", ListEvents)
 	app.Post("/events", CreateEvent)
 	app.Get("/events/find", FindEvents)
+	app.Get("/events/:id", GetEvent)
 	app.Delete("/events/:id", DeleteEvent)
 
 	//Event type endpoints

@@ -17,6 +17,11 @@ func ListEvent(eventList *[]model.Event) error {
 	return (*db).Preload("EventType").Find(&eventList).Error
 }
 
+// GetEvent Queries and return a single event
+func GetEvent(id string, event *model.Event) error {
+	return (*db).First(&event, "id=?", id).Error
+}
+
 // FindEventsWithin accepts ids then return their respective event details
 func FindEventsWithin(ids []string, eventList *[]model.Event) error {
 	return (*db).Where("id IN ?", ids).Find(&eventList).Error

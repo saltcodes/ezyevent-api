@@ -52,6 +52,16 @@ func CreateEvent(c *fiber.Ctx) error {
 	return util.CreateResponseMessage(c, util.Success, event)
 }
 
+func GetEvent(c *fiber.Ctx) error {
+	var event model.Event
+
+	if err := queries.GetEvent(c.Params("id"), &event); err != nil {
+		return util.CreateErrorResponseCode(c, err.Error())
+	}
+
+	return util.CreateResponseMessage(c, util.Success, event)
+}
+
 // FindEvents Find Events uses Post instead of GET to ensure correctness and also too lazy to be parsing params
 func FindEvents(c *fiber.Ctx) error {
 	var eventList []model.Event
