@@ -62,6 +62,25 @@ func GetEvent(c *fiber.Ctx) error {
 	return util.CreateResponseMessage(c, util.Success, event)
 }
 
+func UpdateEvent(c *fiber.Ctx) error {
+
+	event := new(model.Event)
+
+	//Parse Json Object to Struct
+	if err := c.BodyParser(event); err != nil {
+		return util.CreateResponseMessage(c, util.InternalError, err.Error())
+	}
+
+	if err := queries.UpdateEvent(c.Params("id"), event); err != nil {
+		return util.CreateErrorResponseCode(c, err.Error())
+	}
+
+	return util.CreateResponseMessage(c, model.StatusCode{
+		Message: "event updated",
+		Status:  201,
+	}, event)
+}
+
 // FindEvents Find Events uses Post instead of GET to ensure correctness and also too lazy to be parsing params
 func FindEvents(c *fiber.Ctx) error {
 	var eventList []model.Event

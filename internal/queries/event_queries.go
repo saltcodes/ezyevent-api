@@ -3,6 +3,8 @@ package queries
 import (
 	"ezyevent-api/internal/database"
 	"ezyevent-api/internal/model"
+	"fmt"
+	"strings"
 )
 
 var db = &database.DBConn
@@ -28,7 +30,12 @@ func FindEventsWithin(ids []string, eventList *[]model.Event) error {
 }
 
 // UpdateEvent update events
-func UpdateEvent(event *model.Event) error {
+func UpdateEvent(id string, event *model.Event) error {
+
+	if strings.Compare(id, event.Id) != 0 {
+		return fmt.Errorf("invalid id")
+	}
+
 	return (*db).Save(event).Error
 }
 
