@@ -21,12 +21,19 @@ func InitRoutes(app *fiber.App) {
 		return ctx.SendString("Hello ezyevents API v1.0")
 	})
 
-	app.Get("/event-types", ListEventTypes)
-	app.Post("/event-types", CreateEventType)
-	app.Get("/users", GetUsers)
-	app.Get("/comments", ListComments)
+	//Events End point
 	app.Get("/events", ListEvents)
 	app.Post("/events", CreateEvent)
 	app.Get("/events/find", FindEvents)
 	app.Delete("/events/:id", DeleteEvent)
+
+	//Event type endpoints
+	app.Get("/event-types", ListEventTypes)
+	app.Post("/event-types", CreateEventType)
+
+	//Users
+	app.Get("/users", GetUsers)
+
+	//Comments endpoint
+	app.Get("/comments", ListComments)
 }
