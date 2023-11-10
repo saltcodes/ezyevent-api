@@ -24,11 +24,6 @@ func GetEvent(id string, event *model.Event) error {
 	return (*db).First(&event, "id=?", id).Error
 }
 
-// FindEventsWithin accepts ids then return their respective event details
-func FindEventsWithin(ids []string, eventList *[]model.Event) error {
-	return (*db).Where("id IN ?", ids).Find(&eventList).Error
-}
-
 // UpdateEvent update events
 func UpdateEvent(id string, event *model.Event) error {
 
@@ -43,9 +38,9 @@ func UpdateEvent(id string, event *model.Event) error {
 func DeleteEvent(id string) error {
 	var event model.Event
 
-	err := (*db).First(&event, "id=?", id).Error
-	if event.Id == "" {
+	if err := (*db).First(&event, "id=?", id).Error; err != nil {
 		return err
 	}
+
 	return (*db).Delete(&event).Error
 }
