@@ -110,7 +110,7 @@ func FindEvents(c *fiber.Ctx) error {
 func DeleteEvent(c *fiber.Ctx) error {
 	id := c.Params("id")
 
-	if err := queries.DeleteEvent(id); err != nil {
+	if err := queries.Delete(id); err != nil {
 		return util.CreateErrorResponseCode(c, err.Error())
 	}
 
