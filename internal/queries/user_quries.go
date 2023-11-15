@@ -21,11 +21,6 @@ func GetUser(id string, user *model.User) error {
 	return (*db).First(&user, "id=?", id).Error
 }
 
-// FindUsersWithin accepts ids then return their respective user details
-func FindUsersWithin(ids []string, userList *[]model.User) error {
-	return (*db).Where("id IN ?", ids).Find(&userList).Error
-}
-
 // UpdateUser update users
 func UpdateUser(id string, user *model.User) error {
 
