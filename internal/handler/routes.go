@@ -35,6 +35,7 @@ func InitRoutes(app *fiber.App) {
 
 	//Users
 	app.Get("/users", GetUsers)
+	app.Post("/users", CreateUser)
 	app.Get("/users/:id", GetUser)
 	app.Delete("users/:id", DeleteUser)
 	app.Put("/users/:id", UpdateUser)
