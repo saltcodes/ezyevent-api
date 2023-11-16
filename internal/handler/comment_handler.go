@@ -9,7 +9,7 @@ import (
 func ListComments(c *fiber.Ctx) error {
 	var comments []model.Comment
 
-	if err := (*db).Find(&comments).Error; err != nil {
+	if err := (*db).Preload("User").Find(&comments).Error; err != nil {
 		return util.CreateResponseMessage(c, model.StatusCode{
 			Status:  500,
 			Message: err.Error(),

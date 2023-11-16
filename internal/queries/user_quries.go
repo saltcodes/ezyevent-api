@@ -3,6 +3,7 @@ package queries
 import (
 	"ezyevent-api/internal/model"
 	"fmt"
+	"gorm.io/gorm/clause"
 	"strings"
 )
 
@@ -39,5 +40,5 @@ func DeleteUser(id string) error {
 	if user.Id == "" {
 		return err
 	}
-	return (*db).Delete(&user).Error
+	return (*db).Select(clause.Associations, "Comment").Delete(&user).Error
 }
