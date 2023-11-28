@@ -42,4 +42,11 @@ func InitRoutes(app *fiber.App) {
 
 	//Comments endpoint
 	app.Get("/comments", ListComments)
+
+	//EventSchedule
+	app.Get("/event-schedules", ListEventSchedule)
+	app.Get("/event-schedules/:id", GetEventSchedule)
+	app.Put("/event-schedules/:id", UpdateEventSchedule)
+	app.Post("/event-schedules/", CreateEventSchedule)
+	app.Delete("/event-schedules", DeleteEventSchedule)
 }
