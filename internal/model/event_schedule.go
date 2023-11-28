@@ -3,15 +3,16 @@ package model
 import (
 	"github.com/google/uuid"
 	"gorm.io/gorm"
+	"time"
 )
 
 type EventSchedule struct {
-	Id        string `json:"id"`
-	EventId   string `gorm:"event_id"`
-	Date      string `json:"date"`
-	OrgId     string `gorm:"org_id"`
-	UpdatedAt int64  `gorm:"autoUpdateTime:milli"` // Use unix nano seconds as updating time
-	CreatedAt int64  `gorm:"autoCreateTime:milli"`
+	Id        string    `json:"id"`
+	EventId   string    `gorm:"event_id"`
+	Date      string    `json:"date"`
+	OrgId     string    `gorm:"org_id"`
+	UpdatedAt time.Time `gorm:"autoUpdateTime"`
+	CreatedAt time.Time `gorm:"autoCreateTime"`
 }
 
 func (base *EventSchedule) BeforeCreate(db *gorm.DB) (err error) {
