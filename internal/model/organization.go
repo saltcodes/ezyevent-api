@@ -12,7 +12,7 @@ type Organization struct {
 	UserId      string    `json:"userId" gorm:"user_id"`
 	BannerUrl   string    `json:"bannerUrl" gorm:"banner_url"`
 	OrgImageUrl string    `json:"orgImageUrl" gorm:"org_image_url"`
-	User        User      `json:"user,omitempty" gorm:"foreignKey:UserId"`
+	User        *User     `json:"user,omitempty" gorm:"foreignKey:UserId"`
 	CreatedAt   time.Time `gorm:"autoCreateTime"`
 	UpdatedAt   time.Time `gorm:"autoUpdateTime"`
 }

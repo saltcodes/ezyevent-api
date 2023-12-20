@@ -18,8 +18,10 @@ type Event struct {
 	LocationName string         `json:"locationName"`
 	Price        float64        `json:"price"`
 	Date         int            `json:"date"`
+	OrgId        string         `json:"orgId" gorm:"org_id"`
 	EventTypeID  string         `json:"eventTypeID" gorm:"event_type_id"`
-	EventType    EventType      `json:"eventType" gorm:"foreignKey:EventTypeID"`
+	EventType    *EventType     `json:"eventType,omitempty"  gorm:"foreignKey:EventTypeID"`
+	Organization *Organization  `json:"organization,omitempty" gorm:"foreignKey:OrgId"`
 }
 
 func (base *Event) BeforeCreate(db *gorm.DB) (err error) {
