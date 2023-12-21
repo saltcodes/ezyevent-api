@@ -11,6 +11,7 @@ type EventSchedule struct {
 	EventId   string    `gorm:"event_id"`
 	Date      string    `json:"date"`
 	OrgId     string    `gorm:"org_id"`
+	Event     *Event    ` json:"event,omitempty" gorm:"event,foreignKey:EventId"`
 	UpdatedAt time.Time `gorm:"autoUpdateTime"`
 	CreatedAt time.Time `gorm:"autoCreateTime"`
 }

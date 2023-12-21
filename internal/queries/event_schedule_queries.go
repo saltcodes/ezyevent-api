@@ -13,12 +13,12 @@ func CreateScheduledEvent(eventSchedule *model.EventSchedule) error {
 
 // ListScheduledEvent Queries the eventSchedules tab;e and stored them in eventSchedule list array
 func ListScheduledEvent(eventScheduleList *[]model.EventSchedule) error {
-	return (*db).Find(&eventScheduleList).Error
+	return (*db).Preload("Event").Find(&eventScheduleList).Error
 }
 
 // GetScheduledEvent Queries and return a single eventSchedule
 func GetScheduledEvent(id string, eventSchedule *model.EventSchedule) error {
-	return (*db).First(&eventSchedule, "id=?", id).Error
+	return (*db).Preload("Event").First(&eventSchedule, "id=?", id).Error
 }
 
 // UpdateScheduledEvent update eventSchedules
