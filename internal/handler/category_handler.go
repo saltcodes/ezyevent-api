@@ -6,10 +6,10 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
-func ListEventTypes(c *fiber.Ctx) error {
-	var eventTypes []model.EventType
+func ListCategories(c *fiber.Ctx) error {
+	var categories []model.Category
 
-	if err := (*db).Find(&eventTypes).Error; err != nil {
+	if err := (*db).Find(&categories).Error; err != nil {
 		return util.CreateResponseMessage(c, model.StatusCode{
 			Status:  500,
 			Message: err.Error(),
@@ -19,13 +19,13 @@ func ListEventTypes(c *fiber.Ctx) error {
 	return util.CreateResponseMessage(c, model.StatusCode{
 		Status:  200,
 		Message: "success",
-	}, eventTypes)
+	}, categories)
 }
 
-func CreateEventType(c *fiber.Ctx) error {
-	eventType := new(model.EventType)
+func CreateCategory(c *fiber.Ctx) error {
+	category := new(model.Category)
 
-	if err := c.BodyParser(eventType); err != nil {
+	if err := c.BodyParser(category); err != nil {
 		return util.CreateResponseMessage(c, model.StatusCode{
 			Status:  500,
 			Message: err.Error(),
@@ -35,5 +35,5 @@ func CreateEventType(c *fiber.Ctx) error {
 	return util.CreateResponseMessage(c, model.StatusCode{
 		Status:  200,
 		Message: "success",
-	}, eventType)
+	}, category)
 }

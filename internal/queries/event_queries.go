@@ -16,12 +16,12 @@ func CreateEvent(event *model.Event) error {
 
 // ListEvent Queries the events tab;e and stored them in event list array
 func ListEvent(eventList *[]model.Event) error {
-	return (*db).Preload("EventType").Preload("Organization").Find(&eventList).Error
+	return (*db).Preload("Category").Preload("Organization").Find(&eventList).Error
 }
 
 // GetEvent Queries and return a single event
 func GetEvent(id string, event *model.Event) error {
-	return (*db).Preload("EventType").Preload("Organization").First(&event, "id=?", id).Error
+	return (*db).Preload("Category").Preload("Organization").First(&event, "id=?", id).Error
 }
 
 // UpdateEvent update events

@@ -19,8 +19,8 @@ type Event struct {
 	Price        float64        `json:"price"`
 	Date         int            `json:"date"`
 	OrgId        string         `json:"orgId" gorm:"org_id"`
-	EventTypeID  string         `json:"eventTypeID" gorm:"event_type_id"`
-	EventType    *EventType     `json:"eventType,omitempty"  gorm:"foreignKey:EventTypeID"`
+	CategoryID   string         `json:"categoryID" gorm:"category_id"`
+	Category     *Category      `json:"category,omitempty"  gorm:"foreignKey:CategoryID"`
 	Organization *Organization  `json:"organization,omitempty" gorm:"foreignKey:OrgId"`
 }
 

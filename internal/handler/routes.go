@@ -30,8 +30,8 @@ func InitRoutes(app *fiber.App) {
 	app.Delete("/events/:id", DeleteEvent)
 
 	//Event type endpoints
-	app.Get("/event-types", ListEventTypes)
-	app.Post("/event-types", CreateEventType)
+	app.Get("/categories", ListCategories)
+	app.Post("/categories", CreateCategory)
 
 	//Users
 	app.Get("/users", GetUsers)
