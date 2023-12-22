@@ -6,7 +6,7 @@ import (
 	"time"
 )
 
-type EventSchedule struct {
+type Schedule struct {
 	Id        string    `json:"id"`
 	EventId   string    `gorm:"event_id"`
 	Date      string    `json:"date"`
@@ -16,7 +16,7 @@ type EventSchedule struct {
 	CreatedAt time.Time `gorm:"autoCreateTime"`
 }
 
-func (base *EventSchedule) BeforeCreate(db *gorm.DB) (err error) {
+func (base *Schedule) BeforeCreate(db *gorm.DB) (err error) {
 	uId, err := uuid.NewUUID()
 	if err != nil {
 		return err
