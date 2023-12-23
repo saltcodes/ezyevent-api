@@ -56,4 +56,11 @@ func InitRoutes(app *fiber.App) {
 	app.Put("/organizations/:id", UpdateOrganization)
 	app.Post("/organizations", CreateOrganization)
 	app.Delete("/organizations/:id", DeleteOrganization)
+
+	//Booking
+	app.Get("/bookings", ListBooking)
+	app.Get("/bookings/:id", GetBooking)
+	app.Put("/bookings/:id", UpdateBooking)
+	app.Post("/bookings", CreateBooking)
+	app.Delete("/bookings/:id", DeleteBooking)
 }
