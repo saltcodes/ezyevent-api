@@ -27,10 +27,10 @@ func InitRoutes(app *fiber.App) {
 
 	//vysCiv-najte3-gyjjoh
 
-	unRestrictedRoutes := v1.Group("/")
+	unRestrictedRoutes := app.Group("/v1")
 	//Restricted Routes with Auth0  for CUD
 
-	restrictedRoutes := v1.Group("/")
+	restrictedRoutes := app.Group("/v1")
 	//Middleware
 	restrictedRoutes.Use(adaptor.HTTPMiddleware(middleware.EnsureValidToken()))
 
