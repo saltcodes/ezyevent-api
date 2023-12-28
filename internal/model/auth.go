@@ -1,7 +1,7 @@
 package model
 
 type Auth struct {
-	UserId   string `bson:"_id,omitempty" json:"id"`
+	UserId   string `json:"id,omitempty"`
+	Username string `json:"username"`
 	Password string `json:"password"`
-	Token    string `json:"token"`
 }
