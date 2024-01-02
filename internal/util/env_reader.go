@@ -1,7 +1,6 @@
 package util
 
 import (
-	"fmt"
 	"github.com/spf13/viper"
 	"log"
 )
@@ -19,7 +18,5 @@ func GetVariableWith(key string) string {
 	if !ok {
 		log.Fatal("Invalid Key")
 	}
-
-	fmt.Println(value)
 	return value
 }
