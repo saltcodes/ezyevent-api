@@ -10,5 +10,6 @@ RUN CGO_ENABLED=0 go build cmd/ezyevent-api/main.go
 
 FROM scratch
 COPY --from=build /app/main .
+COPY --from=build /app/.env .
 CMD ["/main"]
 EXPOSE 8080

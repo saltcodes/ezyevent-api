@@ -6,7 +6,7 @@ import (
 )
 
 func GetVariableWith(key string) string {
-	viper.SetConfigFile("./.env")
+	viper.SetConfigFile(".env")
 
 	err := viper.ReadInConfig()
 

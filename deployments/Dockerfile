@@ -5,6 +5,6 @@ COPY ../go.sum ./
 RUN go mod download
 COPY ../*.go ./
 RUN go build -o /ezyevent-api
-EXPOSE 8081
+EXPOSE 8080
 CMD ["/ezyevent-api"]
 

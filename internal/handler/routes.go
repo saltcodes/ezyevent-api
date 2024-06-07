@@ -2,9 +2,8 @@ package handler
 
 import (
 	"ezyevent-api/internal/database"
-	"ezyevent-api/internal/middleware"
+	"ezyevent-api/internal/util"
 	"github.com/gofiber/fiber/v2"
-	"github.com/gofiber/fiber/v2/middleware/adaptor"
 	"github.com/gofiber/fiber/v2/middleware/cors"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
@@ -13,7 +12,7 @@ import (
 var db = &database.DBConn
 
 // Initiate gRPC client Connection
-var con, grpcErr = grpc.Dial("localhost:8181", grpc.WithTransportCredentials(insecure.NewCredentials()))
+var con, grpcErr = grpc.Dial(util.GetVariableWith("GRPC_HOST")+":8081", grpc.WithTransportCredentials(insecure.NewCredentials()))
 
 func InitRoutes(app *fiber.App) {
 
@@ -25,14 +24,13 @@ func InitRoutes(app *fiber.App) {
 		return ctx.SendString("Hello ezyevents API v1.0")
 	})
 
-	//vysCiv-najte3-gyjjoh
-
 	unRestrictedRoutes := app.Group("/v1")
 	//Restricted Routes with Auth0  for CUD
 
 	restrictedRoutes := app.Group("/v1")
+
 	//Middleware
-	restrictedRoutes.Use(adaptor.HTTPMiddleware(middleware.EnsureValidToken()))
+	//restrictedRoutes.Use(adaptor.HTTPMiddleware(middleware.EnsureValidToken()))
 
 	//Events Endpoint
 	unRestrictedRoutes.Get("/events", ListEvents)
