@@ -4,6 +4,7 @@ import (
 	"ezyevent-api/internal/database"
 	"ezyevent-api/internal/handler"
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/cors"
 	"log"
 	"os"
 )
@@ -11,7 +12,10 @@ import (
 func main() {
 	app := fiber.New()
 	database.InitDatabase()
-	handler.InitRoutes(app)
+	app.Use(cors.New())
+	handler.InitPrivateRoutes(app)
+	handler.InitPublicRoutes(app)
+	handler.InitDocsRoute()
 
 	port := os.Getenv("PORT")
 	if port == "" {

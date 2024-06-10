@@ -1,0 +1,125 @@
+definitions:
+  ezyevent-api_internal_model.Category:
+    properties:
+      iconUrl:
+        type: string
+      id:
+        type: string
+      name:
+        type: string
+    type: object
+  ezyevent-api_internal_model.Event:
+    properties:
+      banner:
+        type: string
+      category:
+        $ref: '#/definitions/ezyevent-api_internal_model.Category'
+      categoryID:
+        type: string
+      date:
+        type: integer
+      details:
+        type: string
+      id:
+        type: string
+      images:
+        items:
+          type: string
+        type: array
+      lat:
+        type: number
+      lng:
+        type: number
+      locationName:
+        type: string
+      name:
+        type: string
+      orgId:
+        type: string
+      organization:
+        $ref: '#/definitions/ezyevent-api_internal_model.Organization'
+      price:
+        type: number
+      summary:
+        type: string
+    type: object
+  ezyevent-api_internal_model.Organization:
+    properties:
+      bannerUrl:
+        type: string
+      createdAt:
+        type: string
+      id:
+        type: string
+      name:
+        type: string
+      orgImageUrl:
+        type: string
+      updatedAt:
+        type: string
+      user:
+        $ref: '#/definitions/ezyevent-api_internal_model.User'
+      userId:
+        type: string
+    type: object
+  ezyevent-api_internal_model.User:
+    properties:
+      dob:
+        type: integer
+      email:
+        type: string
+      firstName:
+        type: string
+      id:
+        type: string
+      lastName:
+        type: string
+      phone:
+        type: string
+      profile_url:
+        type: string
+    type: object
+info:
+  contact: {}
+paths:
+  /v1/book/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Get Event by given ID.
+      parameters:
+      - description: Book ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/ezyevent-api_internal_model.Event'
+      summary: get event by given ID
+      tags:
+      - Events
+  /v1/events:
+    get:
+      consumes:
+      - application/json
+      description: Get List of all events.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              items:
+                $ref: '#/definitions/ezyevent-api_internal_model.Event'
+              type: array
+            type: array
+      summary: get all exists books
+      tags:
+      - Events
+swagger: "2.0"

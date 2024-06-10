@@ -12,6 +12,14 @@ import (
 
 var locationServerClient = proto.NewLocationDataServiceClient(con)
 
+// ListEvents func gets all existing events.
+// @Description Get List of all events.
+// @Summary get all exists books
+// @Tags Events
+// @Accept json
+// @Produce json
+// @Success 200 {array} []model.Event
+// @Router /v1/events [get]
 func ListEvents(c *fiber.Ctx) error {
 	var eventList []model.Event
 
@@ -52,6 +60,15 @@ func CreateEvent(c *fiber.Ctx) error {
 	return util.CreateResponseMessage(c, util.Success, event)
 }
 
+// GetEvent func gets events by given ID or 404 error.
+// @Description Get Event by given ID.
+// @Summary get event by given ID
+// @Tags Events
+// @Accept json
+// @Produce json
+// @Param id path string true "Book ID"
+// @Success 200 {object} model.Event
+// @Router /v1/book/{id} [get]
 func GetEvent(c *fiber.Ctx) error {
 	var event model.Event
 

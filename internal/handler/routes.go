@@ -2,9 +2,11 @@ package handler
 
 import (
 	"ezyevent-api/internal/database"
+	"ezyevent-api/internal/middleware"
 	"ezyevent-api/internal/util"
 	"github.com/gofiber/fiber/v2"
-	"github.com/gofiber/fiber/v2/middleware/cors"
+	"github.com/gofiber/fiber/v2/middleware/adaptor"
+	"github.com/gofiber/swagger"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
 )
@@ -14,65 +16,91 @@ var db = &database.DBConn
 // Initiate gRPC client Connection
 var con, grpcErr = grpc.Dial(util.GetVariableWith("GRPC_HOST")+":8081", grpc.WithTransportCredentials(insecure.NewCredentials()))
 
-func InitRoutes(app *fiber.App) {
+//	@title			EzyEvent Main API
+//	@version		1.0
+//	@description	MAin API for CRUD Operations.
+//	@contact.name	API Support
+//	@contact.email	oseiyeboahjohnson@gmail.com
+//
+// @license.name	Apache 2.0
+// @license.url	http://www.apache.org/licenses/LICENSE-2.0.html
+// @BasePath	/v1
+func InitPrivateRoutes(app *fiber.App) {
 
-	app.Use(cors.New())
+	route := app.Group("/v1")
 
-	v1 := app.Group("/v1")
-
-	v1.Get("/", func(ctx *fiber.Ctx) error {
+	route.Get("/", func(ctx *fiber.Ctx) error {
 		return ctx.SendString("Hello ezyevents API v1.0")
 	})
 
-	unRestrictedRoutes := app.Group("/v1")
 	//Restricted Routes with Auth0  for CUD
-
-	restrictedRoutes := app.Group("/v1")
-
 	//Middleware
-	//restrictedRoutes.Use(adaptor.HTTPMiddleware(middleware.EnsureValidToken()))
+	route.Use(adaptor.HTTPMiddleware(middleware.EnsureValidToken()))
 
-	//Events Endpoint
-	unRestrictedRoutes.Get("/events", ListEvents)
-	unRestrictedRoutes.Get("/events/find", FindEvents)
-	unRestrictedRoutes.Get("/events/:id", GetEvent)
-
-	restrictedRoutes.Put("/events/:id", UpdateEvent)
-	restrictedRoutes.Delete("/events/:id", DeleteEvent)
-	restrictedRoutes.Post("/events", CreateEvent)
+	route.Put("/events/:id", UpdateEvent)
+	route.Delete("/events/:id", DeleteEvent)
+	route.Post("/events", CreateEvent)
 
 	//Categories Endpoint
-	restrictedRoutes.Post("/categories", CreateCategory)
-	unRestrictedRoutes.Get("/categories", ListCategories)
+	route.Post("/categories", CreateCategory)
 
 	//Users Endpoint
-	unRestrictedRoutes.Get("/users", GetUsers)
-	unRestrictedRoutes.Get("/users/:id", GetUser)
-	restrictedRoutes.Delete("users/:id", DeleteUser)
-	restrictedRoutes.Put("/users/:id", UpdateUser)
-	restrictedRoutes.Post("/users", CreateUser)
+	route.Delete("users/:id", DeleteUser)
+	route.Put("/users/:id", UpdateUser)
+	route.Post("/users", CreateUser)
 
 	//Schedules Endpoint
-	unRestrictedRoutes.Get("/schedules", ListSchedule)
-	unRestrictedRoutes.Get("/schedules/:id", GetSchedule)
-	restrictedRoutes.Put("/schedules/:id", UpdateSchedule)
-	restrictedRoutes.Post("/schedules/", CreateSchedule)
-	restrictedRoutes.Delete("/schedules", DeleteEventSchedule)
+	route.Put("/schedules/:id", UpdateSchedule)
+	route.Post("/schedules/", CreateSchedule)
+	route.Delete("/schedules", DeleteEventSchedule)
 
 	//Organizations Endpoint
-	unRestrictedRoutes.Get("/organizations", ListOrganization)
-	unRestrictedRoutes.Get("/organizations/:id", GetOrganization)
-	restrictedRoutes.Put("/organizations/:id", UpdateOrganization)
-	restrictedRoutes.Post("/organizations", CreateOrganization)
-	restrictedRoutes.Delete("/organizations/:id", DeleteOrganization)
+	route.Put("/organizations/:id", UpdateOrganization)
+	route.Post("/organizations", CreateOrganization)
+	route.Delete("/organizations/:id", DeleteOrganization)
 
 	//Booking endpoint
-	unRestrictedRoutes.Get("/bookings", ListBooking)
-	unRestrictedRoutes.Get("/bookings/:id", GetBooking)
-	restrictedRoutes.Put("/bookings/:id", UpdateBooking)
-	restrictedRoutes.Post("/bookings", CreateBooking)
-	restrictedRoutes.Delete("/bookings/:id", DeleteBooking)
+	route.Put("/bookings/:id", UpdateBooking)
+	route.Post("/bookings", CreateBooking)
+	route.Delete("/bookings/:id", DeleteBooking)
+
+}
+
+func InitPublicRoutes(app *fiber.App) {
+
+	route := app.Group("/v1")
+	//Events Endpoint
+	route.Get("/events", ListEvents)
+	route.Get("/events/find", FindEvents)
+	route.Get("/events/:id", GetEvent)
+
+	route.Get("/categories", ListCategories)
+
+	//Users Endpoint
+	route.Get("/users", GetUsers)
+	route.Get("/users/:id", GetUser)
+
+	//Schedules Endpoint
+	route.Get("/schedules", ListSchedule)
+	route.Get("/schedules/:id", GetSchedule)
+
+	//Organizations Endpoint
+	route.Get("/organizations", ListOrganization)
+	route.Get("/organizations/:id", GetOrganization)
+
+	//Booking endpoint
+	route.Get("/bookings", ListBooking)
+	route.Get("/bookings/:id", GetBooking)
 
 	//Comments endpoint
-	unRestrictedRoutes.Get("/comments", ListComments)
+	route.Get("/comments", ListComments)
+}
+
+func InitDocsRoute(app *fiber.App) {
+	route := app.Group("/v1")
+	route.Get("/docs", swagger.New(swagger.Config{
+		Title: "EzyEvent API",
+		URL:   "./docs/v1/swagger.json",
+	}))
+
 }
