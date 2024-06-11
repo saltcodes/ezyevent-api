@@ -4,9 +4,9 @@ import (
 	"ezyevent-api/internal/database"
 	"ezyevent-api/internal/middleware"
 	"ezyevent-api/internal/util"
+	"github.com/gofiber/contrib/swagger"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/adaptor"
-	"github.com/gofiber/swagger"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
 )
@@ -18,7 +18,7 @@ var con, grpcErr = grpc.Dial(util.GetVariableWith("GRPC_HOST")+":8081", grpc.Wit
 
 //	@title			EzyEvent Main API
 //	@version		1.0
-//	@description	MAin API for CRUD Operations.
+//	@description	Main API for CRUD Operations.
 //	@contact.name	API Support
 //	@contact.email	oseiyeboahjohnson@gmail.com
 //
@@ -97,10 +97,27 @@ func InitPublicRoutes(app *fiber.App) {
 }
 
 func InitDocsRoute(app *fiber.App) {
-	route := app.Group("/v1")
-	route.Get("/docs", swagger.New(swagger.Config{
-		Title: "EzyEvent API",
-		URL:   "./docs/v1/swagger.json",
-	}))
 
+	app.Use(swagger.New(swagger.Config{
+		BasePath: "/v1",
+		Title:    "EzyEvent API",
+		FilePath: "./docs/swagger.json",
+		Path:     "docs",
+	}))
+}
+
+// NotFoundRoute func for describe 404 Error route.
+func NotFoundRoute(a *fiber.App) {
+	// Register new special route.
+	a.Use(
+		// Anonimus function.
+		func(c *fiber.Ctx) error {
+			// Return HTTP 404 status and JSON response.
+			return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
+				"code":    true,
+				"message": "sorry, endpoint is not found",
+				"data":    nil,
+			})
+		},
+	)
 }

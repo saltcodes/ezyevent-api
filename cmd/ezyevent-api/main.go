@@ -13,9 +13,10 @@ func main() {
 	app := fiber.New()
 	database.InitDatabase()
 	app.Use(cors.New())
-	handler.InitPrivateRoutes(app)
+	handler.InitDocsRoute(app)
 	handler.InitPublicRoutes(app)
-	handler.InitDocsRoute()
+	handler.InitPrivateRoutes(app)
+	handler.NotFoundRoute(app)
 
 	port := os.Getenv("PORT")
 	if port == "" {

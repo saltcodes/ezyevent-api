@@ -9,44 +9,19 @@ const docTemplate = `{
     "info": {
         "description": "{{escape .Description}}",
         "title": "{{.Title}}",
-        "contact": {},
+        "contact": {
+            "name": "API Support",
+            "email": "oseiyeboahjohnson@gmail.com"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+        },
         "version": "{{.Version}}"
     },
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/v1/book/{id}": {
-            "get": {
-                "description": "Get Event by given ID.",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Events"
-                ],
-                "summary": "get event by given ID",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Book ID",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/ezyevent-api_internal_model.Event"
-                        }
-                    }
-                }
-            }
-        },
         "/v1/events": {
             "get": {
                 "description": "Get List of all events.",
@@ -71,6 +46,38 @@ const docTemplate = `{
                                     "$ref": "#/definitions/ezyevent-api_internal_model.Event"
                                 }
                             }
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/events/{id}": {
+            "get": {
+                "description": "Get Event by given ID.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Events"
+                ],
+                "summary": "get event by given ID",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Event ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/ezyevent-api_internal_model.Event"
                         }
                     }
                 }
@@ -205,12 +212,12 @@ const docTemplate = `{
 
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = &swag.Spec{
-	Version:          "",
+	Version:          "1.0",
 	Host:             "",
-	BasePath:         "",
+	BasePath:         "/v1",
 	Schemes:          []string{},
-	Title:            "",
-	Description:      "",
+	Title:            "EzyEvent Main API",
+	Description:      "Main API for CRUD Operations.",
 	InfoInstanceName: "swagger",
 	SwaggerTemplate:  docTemplate,
 	LeftDelim:        "{{",

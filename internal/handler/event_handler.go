@@ -66,9 +66,9 @@ func CreateEvent(c *fiber.Ctx) error {
 // @Tags Events
 // @Accept json
 // @Produce json
-// @Param id path string true "Book ID"
+// @Param id path string true "Event ID"
 // @Success 200 {object} model.Event
-// @Router /v1/book/{id} [get]
+// @Router /v1/events/{id} [get]
 func GetEvent(c *fiber.Ctx) error {
 	var event model.Event
 

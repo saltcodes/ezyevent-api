@@ -1,3 +1,4 @@
+basePath: /v1
 definitions:
   ezyevent-api_internal_model.Category:
     properties:
@@ -80,29 +81,16 @@ definitions:
         type: string
     type: object
 info:
-  contact: {}
+  contact:
+    email: oseiyeboahjohnson@gmail.com
+    name: API Support
+  description: Main API for CRUD Operations.
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  title: EzyEvent Main API
+  version: "1.0"
 paths:
-  /v1/book/{id}:
-    get:
-      consumes:
-      - application/json
-      description: Get Event by given ID.
-      parameters:
-      - description: Book ID
-        in: path
-        name: id
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/ezyevent-api_internal_model.Event'
-      summary: get event by given ID
-      tags:
-      - Events
   /v1/events:
     get:
       consumes:
@@ -120,6 +108,27 @@ paths:
               type: array
             type: array
       summary: get all exists books
+      tags:
+      - Events
+  /v1/events/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Get Event by given ID.
+      parameters:
+      - description: Event ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/ezyevent-api_internal_model.Event'
+      summary: get event by given ID
       tags:
       - Events
 swagger: "2.0"
