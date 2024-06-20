@@ -14,12 +14,12 @@ var locationServerClient = proto.NewLocationDataServiceClient(con)
 
 // ListEvents func gets all existing events.
 // @Description Get List of all events.
-// @Summary get all exists books
+// @Summary get all existing events
 // @Tags Events
 // @Accept json
 // @Produce json
-// @Success 200 {array} []model.Event
-// @Router /v1/events [get]
+// @Success 200 {object} model.ResponseObject{data=[]model.Event} "desc"
+// @Router /events [get]
 func ListEvents(c *fiber.Ctx) error {
 	var eventList []model.Event
 
@@ -30,6 +30,16 @@ func ListEvents(c *fiber.Ctx) error {
 	return util.CreateResponseMessage(c, util.Success, eventList)
 }
 
+// CreateEvent func create event in the database by checking with
+// @Description create event in the database
+// @Summary create an event
+// @Tags Events
+// @Accept json
+// @Produce json
+// @Success 200 {object} model.ResponseObject{data=model.Event} "desc"
+// @Param id path string true "Event ID"
+// @Param request body model.Event true "query params"
+// @Router /events/{id} [post]
 func CreateEvent(c *fiber.Ctx) error {
 	event := new(model.Event)
 
@@ -67,8 +77,8 @@ func CreateEvent(c *fiber.Ctx) error {
 // @Accept json
 // @Produce json
 // @Param id path string true "Event ID"
-// @Success 200 {object} model.Event
-// @Router /v1/events/{id} [get]
+// @Success 200 {object} model.ResponseObject{data=model.Event} "desc"
+// @Router /events/{id} [get]
 func GetEvent(c *fiber.Ctx) error {
 	var event model.Event
 
@@ -79,6 +89,16 @@ func GetEvent(c *fiber.Ctx) error {
 	return util.CreateResponseMessage(c, util.Success, event)
 }
 
+// UpdateEvent func updates events in the database by checking with id
+// @Description updates events in the database by checking with id
+// @Summary update event by id
+// @Tags Events
+// @Accept json
+// @Produce json
+// @Success 200 {object} model.ResponseObject{data=model.Event} "desc"
+// @Param id path string true "Event ID"
+// @Param request body model.Event true "query params"
+// @Router /events/{id} [put]
 func UpdateEvent(c *fiber.Ctx) error {
 
 	event := new(model.Event)
@@ -99,6 +119,16 @@ func UpdateEvent(c *fiber.Ctx) error {
 }
 
 // FindEvents Find Events uses Post instead of GET to ensure correctness and also too lazy to be parsing params
+// @Description find events using lng,lat and radius
+// @Tags Events
+// @Summary query events bases and location
+// @Accept json
+// @Produce json
+// @Param radius query string false "enter radius for event"
+// @Param lat query string false "enter starting latitude"
+// @Param lng query string false "enter starting  longitude"
+// @Router /events/find [get]
+// @Success 200 {object} model.ResponseObject{data=[]model.Event} "desc"
 func FindEvents(c *fiber.Ctx) error {
 	var eventList []model.Event
 	var eventIds []string
@@ -124,6 +154,16 @@ func FindEvents(c *fiber.Ctx) error {
 	return util.CreateResponseMessage(c, util.Success, eventList)
 }
 
+// DeleteEvent func delete events in the database by checking with id
+// @Description delete events in the database by checking with id
+// @Summary delete event by id
+// @Tags Events
+// @Accept json
+// @Produce json
+// @Success 200 {object} model.ResponseObject{data=model.Event} "desc"
+// @Param id path string true "Event ID"
+// @Param request body model.Event true "query params"
+// @Router /events/{id} [delete]
 func DeleteEvent(c *fiber.Ctx) error {
 	id := c.Params("id")
 

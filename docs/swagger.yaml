@@ -63,6 +63,14 @@ definitions:
       userId:
         type: string
     type: object
+  ezyevent-api_internal_model.ResponseObject:
+    properties:
+      code:
+        type: integer
+      data: {}
+      message:
+        type: string
+    type: object
   ezyevent-api_internal_model.User:
     properties:
       dob:
@@ -91,7 +99,7 @@ info:
   title: EzyEvent Main API
   version: "1.0"
 paths:
-  /v1/events:
+  /events:
     get:
       consumes:
       - application/json
@@ -100,17 +108,51 @@ paths:
       - application/json
       responses:
         "200":
-          description: OK
+          description: desc
           schema:
-            items:
-              items:
-                $ref: '#/definitions/ezyevent-api_internal_model.Event'
-              type: array
-            type: array
-      summary: get all exists books
+            allOf:
+            - $ref: '#/definitions/ezyevent-api_internal_model.ResponseObject'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/ezyevent-api_internal_model.Event'
+                  type: array
+              type: object
+      summary: get all existing events
       tags:
       - Events
-  /v1/events/{id}:
+  /events/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: delete events in the database by checking with id
+      parameters:
+      - description: Event ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: query params
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/ezyevent-api_internal_model.Event'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: desc
+          schema:
+            allOf:
+            - $ref: '#/definitions/ezyevent-api_internal_model.ResponseObject'
+            - properties:
+                data:
+                  $ref: '#/definitions/ezyevent-api_internal_model.Event'
+              type: object
+      summary: delete event by id
+      tags:
+      - Events
     get:
       consumes:
       - application/json
@@ -125,10 +167,112 @@ paths:
       - application/json
       responses:
         "200":
-          description: OK
+          description: desc
           schema:
-            $ref: '#/definitions/ezyevent-api_internal_model.Event'
+            allOf:
+            - $ref: '#/definitions/ezyevent-api_internal_model.ResponseObject'
+            - properties:
+                data:
+                  $ref: '#/definitions/ezyevent-api_internal_model.Event'
+              type: object
       summary: get event by given ID
+      tags:
+      - Events
+    post:
+      consumes:
+      - application/json
+      description: create event in the database
+      parameters:
+      - description: Event ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: query params
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/ezyevent-api_internal_model.Event'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: desc
+          schema:
+            allOf:
+            - $ref: '#/definitions/ezyevent-api_internal_model.ResponseObject'
+            - properties:
+                data:
+                  $ref: '#/definitions/ezyevent-api_internal_model.Event'
+              type: object
+      summary: create an event
+      tags:
+      - Events
+    put:
+      consumes:
+      - application/json
+      description: updates events in the database by checking with id
+      parameters:
+      - description: Event ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: query params
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/ezyevent-api_internal_model.Event'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: desc
+          schema:
+            allOf:
+            - $ref: '#/definitions/ezyevent-api_internal_model.ResponseObject'
+            - properties:
+                data:
+                  $ref: '#/definitions/ezyevent-api_internal_model.Event'
+              type: object
+      summary: update event by id
+      tags:
+      - Events
+  /events/find:
+    get:
+      consumes:
+      - application/json
+      description: find events using lng,lat and radius
+      parameters:
+      - description: enter radius for event
+        in: query
+        name: radius
+        type: string
+      - description: enter starting latitude
+        in: query
+        name: lat
+        type: string
+      - description: enter starting  longitude
+        in: query
+        name: lng
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: desc
+          schema:
+            allOf:
+            - $ref: '#/definitions/ezyevent-api_internal_model.ResponseObject'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/ezyevent-api_internal_model.Event'
+                  type: array
+              type: object
+      summary: query events bases and location
       tags:
       - Events
 swagger: "2.0"

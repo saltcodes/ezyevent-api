@@ -2,11 +2,9 @@ package handler
 
 import (
 	"ezyevent-api/internal/database"
-	"ezyevent-api/internal/middleware"
 	"ezyevent-api/internal/util"
 	"github.com/gofiber/contrib/swagger"
 	"github.com/gofiber/fiber/v2"
-	"github.com/gofiber/fiber/v2/middleware/adaptor"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
 )
@@ -35,7 +33,7 @@ func InitPrivateRoutes(app *fiber.App) {
 
 	//Restricted Routes with Auth0  for CUD
 	//Middleware
-	route.Use(adaptor.HTTPMiddleware(middleware.EnsureValidToken()))
+	//route.Use(adaptor.HTTPMiddleware(middleware.EnsureValidToken()))
 
 	route.Put("/events/:id", UpdateEvent)
 	route.Delete("/events/:id", DeleteEvent)
