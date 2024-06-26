@@ -6,6 +6,14 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
+// ListComments func gets all existing comments.
+// @Description Get List of all comments.
+// @Summary get all existing comments
+// @Tags Comments
+// @Accept json
+// @Produce json
+// @Success 200 {object} model.ResponseObject{data=[]model.Comment} "desc"
+// @Router /comments [get]
 func ListComments(c *fiber.Ctx) error {
 	var comments []model.Comment
 
