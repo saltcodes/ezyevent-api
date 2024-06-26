@@ -274,6 +274,60 @@ paths:
       summary: update booking by id
       tags:
       - Booking
+  /categories:
+    get:
+      consumes:
+      - application/json
+      description: Get List of all categories.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: desc
+          schema:
+            allOf:
+            - $ref: '#/definitions/ezyevent-api_internal_model.ResponseObject'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/ezyevent-api_internal_model.Category'
+                  type: array
+              type: object
+      summary: get all existing categories
+      tags:
+      - Category
+  /categories/{id}:
+    post:
+      consumes:
+      - application/json
+      description: create category in the database
+      parameters:
+      - description: Category ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: query params
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/ezyevent-api_internal_model.Category'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: desc
+          schema:
+            allOf:
+            - $ref: '#/definitions/ezyevent-api_internal_model.ResponseObject'
+            - properties:
+                data:
+                  $ref: '#/definitions/ezyevent-api_internal_model.Category'
+              type: object
+      summary: create a category
+      tags:
+      - Category
   /events:
     get:
       consumes:
