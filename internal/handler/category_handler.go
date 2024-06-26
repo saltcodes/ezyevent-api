@@ -10,10 +10,7 @@ func ListCategories(c *fiber.Ctx) error {
 	var categories []model.Category
 
 	if err := (*db).Find(&categories).Error; err != nil {
-		return util.CreateResponseMessage(c, model.StatusCode{
-			Status:  500,
-			Message: err.Error(),
-		}, nil)
+		return util.CreateErrorResponseCode(c, err.Error())
 	}
 
 	return util.CreateResponseMessage(c, model.StatusCode{
@@ -26,10 +23,7 @@ func CreateCategory(c *fiber.Ctx) error {
 	category := new(model.Category)
 
 	if err := c.BodyParser(category); err != nil {
-		return util.CreateResponseMessage(c, model.StatusCode{
-			Status:  500,
-			Message: err.Error(),
-		}, nil)
+		return util.CreateErrorResponseCode(c, err.Error())
 	}
 
 	return util.CreateResponseMessage(c, model.StatusCode{
