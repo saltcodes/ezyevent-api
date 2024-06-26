@@ -645,4 +645,145 @@ paths:
       summary: update organization by id
       tags:
       - Organizations
+  /schedules:
+    get:
+      consumes:
+      - application/json
+      description: Get List of all schedules.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: desc
+          schema:
+            allOf:
+            - $ref: '#/definitions/ezyevent-api_internal_model.ResponseObject'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/ezyevent-api_internal_model.Schedule'
+                  type: array
+              type: object
+      summary: get all existing schedules
+      tags:
+      - Schedules
+  /schedules/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: delete schedules in the database by checking with id
+      parameters:
+      - description: Schedule ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: query params
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/ezyevent-api_internal_model.Schedule'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: desc
+          schema:
+            allOf:
+            - $ref: '#/definitions/ezyevent-api_internal_model.ResponseObject'
+            - properties:
+                data:
+                  $ref: '#/definitions/ezyevent-api_internal_model.Schedule'
+              type: object
+      summary: delete schedule by id
+      tags:
+      - Schedules
+    get:
+      consumes:
+      - application/json
+      description: Get Schedule by given ID.
+      parameters:
+      - description: Schedule ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: desc
+          schema:
+            allOf:
+            - $ref: '#/definitions/ezyevent-api_internal_model.ResponseObject'
+            - properties:
+                data:
+                  $ref: '#/definitions/ezyevent-api_internal_model.Schedule'
+              type: object
+      summary: get schedule by given ID
+      tags:
+      - Schedules
+    post:
+      consumes:
+      - application/json
+      description: create schedule in the database
+      parameters:
+      - description: Schedule ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: query params
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/ezyevent-api_internal_model.Schedule'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: desc
+          schema:
+            allOf:
+            - $ref: '#/definitions/ezyevent-api_internal_model.ResponseObject'
+            - properties:
+                data:
+                  $ref: '#/definitions/ezyevent-api_internal_model.Schedule'
+              type: object
+      summary: create a schedule
+      tags:
+      - Schedules
+    put:
+      consumes:
+      - application/json
+      description: updates schedules in the database by checking with id
+      parameters:
+      - description: Schedule ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: query params
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/ezyevent-api_internal_model.Schedule'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: desc
+          schema:
+            allOf:
+            - $ref: '#/definitions/ezyevent-api_internal_model.ResponseObject'
+            - properties:
+                data:
+                  $ref: '#/definitions/ezyevent-api_internal_model.Schedule'
+              type: object
+      summary: update schedule by id
+      tags:
+      - Schedules
 swagger: "2.0"
