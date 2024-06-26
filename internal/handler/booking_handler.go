@@ -7,6 +7,16 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
+// CreateBooking func create booking in the database by checking with
+// @Description create booking in the database
+// @Summary create a booking
+// @Tags Booking
+// @Accept json
+// @Produce json
+// @Success 200 {object} model.ResponseObject{data=model.Booking} "desc"
+// @Param id path string true "Booking ID"
+// @Param request body model.Booking true "query params"
+// @Router /bookings/{id} [post]
 func CreateBooking(c *fiber.Ctx) error {
 	booking := new(model.Booking)
 
@@ -21,6 +31,15 @@ func CreateBooking(c *fiber.Ctx) error {
 	return util.CreateResponseMessage(c, util.Success, booking)
 }
 
+// GetBooking func gets bookings by given ID or 404 error.
+// @Description Get Booking by given ID.
+// @Summary get booking by given ID
+// @Tags Booking
+// @Accept json
+// @Produce json
+// @Param id path string true "Booking ID"
+// @Success 200 {object} model.ResponseObject{data=model.Booking} "desc"
+// @Router /bookings/{id} [get]
 func GetBooking(c *fiber.Ctx) error {
 	booking := new(model.Booking)
 
@@ -30,6 +49,14 @@ func GetBooking(c *fiber.Ctx) error {
 	return util.CreateResponseMessage(c, util.Success, booking)
 }
 
+// ListBooking func gets all existing bookings.
+// @Description Get List of all bookings.
+// @Summary get all existing bookings
+// @Tags Booking
+// @Accept json
+// @Produce json
+// @Success 200 {object} model.ResponseObject{data=[]model.Booking} "desc"
+// @Router /bookings [get]
 func ListBooking(c *fiber.Ctx) error {
 	var bookings []model.Booking
 	//var d = database.DBConn
@@ -44,6 +71,16 @@ func ListBooking(c *fiber.Ctx) error {
 	}, bookings)
 }
 
+// UpdateBooking func updates bookings in the database by checking with id
+// @Description updates bookings in the database by checking with id
+// @Summary update booking by id
+// @Tags Booking
+// @Accept json
+// @Produce json
+// @Success 200 {object} model.ResponseObject{data=model.Booking} "desc"
+// @Param id path string true "Booking ID"
+// @Param request body model.Booking true "query params"
+// @Router /bookings/{id} [put]
 func UpdateBooking(c *fiber.Ctx) error {
 	booking := new(model.Booking)
 
@@ -61,6 +98,16 @@ func UpdateBooking(c *fiber.Ctx) error {
 	}, booking)
 }
 
+// DeleteBooking func delete bookings in the database by checking with id
+// @Description delete bookings in the database by checking with id
+// @Summary delete booking by id
+// @Tags Booking
+// @Accept json
+// @Produce json
+// @Success 200 {object} model.ResponseObject{data=model.Booking} "desc"
+// @Param id path string true "Booking ID"
+// @Param request body model.Booking true "query params"
+// @Router /bookings/{id} [delete]
 func DeleteBooking(c *fiber.Ctx) error {
 	if err := queries.DeleteBooking(c.Params("id")); err != nil {
 		return util.CreateErrorResponseCode(c, err.Error())

@@ -1,5 +1,22 @@
 basePath: /v1
 definitions:
+  ezyevent-api_internal_model.Booking:
+    properties:
+      ID:
+        type: string
+      createdAt:
+        type: string
+      schedule:
+        $ref: '#/definitions/ezyevent-api_internal_model.Schedule'
+      scheduleId:
+        type: string
+      updatedAt:
+        type: string
+      user:
+        $ref: '#/definitions/ezyevent-api_internal_model.User'
+      userId:
+        type: string
+    type: object
   ezyevent-api_internal_model.Category:
     properties:
       iconUrl:
@@ -71,6 +88,23 @@ definitions:
       message:
         type: string
     type: object
+  ezyevent-api_internal_model.Schedule:
+    properties:
+      createdAt:
+        type: string
+      date:
+        type: string
+      event:
+        $ref: '#/definitions/ezyevent-api_internal_model.Event'
+      eventId:
+        type: string
+      id:
+        type: string
+      orgId:
+        type: string
+      updatedAt:
+        type: string
+    type: object
   ezyevent-api_internal_model.User:
     properties:
       dob:
@@ -99,6 +133,147 @@ info:
   title: EzyEvent Main API
   version: "1.0"
 paths:
+  /bookings:
+    get:
+      consumes:
+      - application/json
+      description: Get List of all bookings.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: desc
+          schema:
+            allOf:
+            - $ref: '#/definitions/ezyevent-api_internal_model.ResponseObject'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/ezyevent-api_internal_model.Booking'
+                  type: array
+              type: object
+      summary: get all existing bookings
+      tags:
+      - Booking
+  /bookings/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: delete bookings in the database by checking with id
+      parameters:
+      - description: Booking ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: query params
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/ezyevent-api_internal_model.Booking'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: desc
+          schema:
+            allOf:
+            - $ref: '#/definitions/ezyevent-api_internal_model.ResponseObject'
+            - properties:
+                data:
+                  $ref: '#/definitions/ezyevent-api_internal_model.Booking'
+              type: object
+      summary: delete booking by id
+      tags:
+      - Booking
+    get:
+      consumes:
+      - application/json
+      description: Get Booking by given ID.
+      parameters:
+      - description: Booking ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: desc
+          schema:
+            allOf:
+            - $ref: '#/definitions/ezyevent-api_internal_model.ResponseObject'
+            - properties:
+                data:
+                  $ref: '#/definitions/ezyevent-api_internal_model.Booking'
+              type: object
+      summary: get booking by given ID
+      tags:
+      - Booking
+    post:
+      consumes:
+      - application/json
+      description: create booking in the database
+      parameters:
+      - description: Booking ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: query params
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/ezyevent-api_internal_model.Booking'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: desc
+          schema:
+            allOf:
+            - $ref: '#/definitions/ezyevent-api_internal_model.ResponseObject'
+            - properties:
+                data:
+                  $ref: '#/definitions/ezyevent-api_internal_model.Booking'
+              type: object
+      summary: create a booking
+      tags:
+      - Booking
+    put:
+      consumes:
+      - application/json
+      description: updates bookings in the database by checking with id
+      parameters:
+      - description: Booking ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: query params
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/ezyevent-api_internal_model.Booking'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: desc
+          schema:
+            allOf:
+            - $ref: '#/definitions/ezyevent-api_internal_model.ResponseObject'
+            - properties:
+                data:
+                  $ref: '#/definitions/ezyevent-api_internal_model.Booking'
+              type: object
+      summary: update booking by id
+      tags:
+      - Booking
   /events:
     get:
       consumes:
