@@ -12,10 +12,7 @@ func GetUsers(c *fiber.Ctx) error {
 	//var d = database.DBConn
 
 	if err := queries.ListUser(&users); err != nil {
-		return util.CreateResponseMessage(c, model.StatusCode{
-			Message: "success",
-			Status:  201,
-		}, nil)
+		return util.CreateErrorResponseCode(c, err.Error())
 	}
 
 	return util.CreateResponseMessage(c, model.StatusCode{
@@ -29,7 +26,7 @@ func CreateUser(c *fiber.Ctx) error {
 
 	//Parse Json Object to Struct
 	if err := c.BodyParser(user); err != nil {
-		return util.CreateResponseMessage(c, util.InternalError, err.Error())
+		return util.CreateErrorResponseCode(c, err.Error())
 	}
 
 	if err := queries.CreateUser(user); err != nil {
