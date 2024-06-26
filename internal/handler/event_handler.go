@@ -25,7 +25,7 @@ func ListEvents(c *fiber.Ctx) error {
 
 	//Get address of the event list
 	if err := queries.ListEvent(&eventList); err != nil {
-		return util.CreateResponseMessage(c, util.InternalError, err.Error())
+		return util.CreateErrorResponseCode(c, err.Error())
 	}
 	return util.CreateResponseMessage(c, util.Success, eventList)
 }
