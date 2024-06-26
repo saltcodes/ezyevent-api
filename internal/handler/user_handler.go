@@ -78,7 +78,7 @@ func GetUser(c *fiber.Ctx) error {
 // @Tags Users
 // @Accept json
 // @Produce json
-// @Success 200 {object} model.ResponseObject{data='user deleted'} "desc"
+// @Success 200 {object} model.ResponseObject{data=string} "desc"
 // @Param id path string true "User ID"
 // @Param request body model.User true "query params"
 // @Router /users/{id} [delete]

@@ -26,6 +26,24 @@ definitions:
       name:
         type: string
     type: object
+  ezyevent-api_internal_model.Comment:
+    properties:
+      createdAt:
+        type: integer
+      event_id:
+        type: string
+      id:
+        type: string
+      message:
+        type: string
+      updatedAt:
+        description: Use unix nano seconds as updating time
+        type: integer
+      user:
+        $ref: '#/definitions/ezyevent-api_internal_model.User'
+      userId:
+        type: string
+    type: object
   ezyevent-api_internal_model.Event:
     properties:
       banner:
@@ -328,6 +346,28 @@ paths:
       summary: create a category
       tags:
       - Category
+  /comments:
+    get:
+      consumes:
+      - application/json
+      description: Get List of all comments.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: desc
+          schema:
+            allOf:
+            - $ref: '#/definitions/ezyevent-api_internal_model.ResponseObject'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/ezyevent-api_internal_model.Comment'
+                  type: array
+              type: object
+      summary: get all existing comments
+      tags:
+      - Comments
   /events:
     get:
       consumes:
@@ -786,4 +826,145 @@ paths:
       summary: update schedule by id
       tags:
       - Schedules
+  /users:
+    get:
+      consumes:
+      - application/json
+      description: Get List of all users.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: desc
+          schema:
+            allOf:
+            - $ref: '#/definitions/ezyevent-api_internal_model.ResponseObject'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/ezyevent-api_internal_model.User'
+                  type: array
+              type: object
+      summary: get all existing users
+      tags:
+      - Users
+  /users/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: delete users in the database by checking with id
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: query params
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/ezyevent-api_internal_model.User'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: desc
+          schema:
+            allOf:
+            - $ref: '#/definitions/ezyevent-api_internal_model.ResponseObject'
+            - properties:
+                data:
+                  type: string
+              type: object
+      summary: delete user by id
+      tags:
+      - Users
+    get:
+      consumes:
+      - application/json
+      description: Get User by given ID.
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: desc
+          schema:
+            allOf:
+            - $ref: '#/definitions/ezyevent-api_internal_model.ResponseObject'
+            - properties:
+                data:
+                  $ref: '#/definitions/ezyevent-api_internal_model.User'
+              type: object
+      summary: get user by given ID
+      tags:
+      - Users
+    post:
+      consumes:
+      - application/json
+      description: create user in the database
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: query params
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/ezyevent-api_internal_model.User'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: desc
+          schema:
+            allOf:
+            - $ref: '#/definitions/ezyevent-api_internal_model.ResponseObject'
+            - properties:
+                data:
+                  $ref: '#/definitions/ezyevent-api_internal_model.User'
+              type: object
+      summary: create a user
+      tags:
+      - Users
+    put:
+      consumes:
+      - application/json
+      description: updates users in the database by checking with id
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: query params
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/ezyevent-api_internal_model.User'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: desc
+          schema:
+            allOf:
+            - $ref: '#/definitions/ezyevent-api_internal_model.ResponseObject'
+            - properties:
+                data:
+                  $ref: '#/definitions/ezyevent-api_internal_model.User'
+              type: object
+      summary: update user by id
+      tags:
+      - Users
 swagger: "2.0"
